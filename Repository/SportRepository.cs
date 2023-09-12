@@ -16,21 +16,7 @@ namespace task2.Repository
             var res = new List<Sport>();
 
             _conn.Open();
-            using (var query = _conn.CreateCommand())
-            {
-                query.CommandText = "select id, name from sport";
-                var reader = query.ExecuteReader();
-                while (reader.Read())
-                {
-                    res.Add(
-                        new Sport
-                        {
-                            id = reader.GetInt32(reader.GetOrdinal("id")),
-                            name = reader.GetString(reader.GetOrdinal("name"))
-                        }
-                    );
-                }
-            }
+            res = (List<Sport>)_conn.Query<Sport>("select id, name from sport");
             _conn.Close();
 
             return res;
